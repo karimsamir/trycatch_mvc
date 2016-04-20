@@ -1,9 +1,22 @@
-AddDefaultCharset UTF-8
+#RewriteEngine on
+#RewriteBase /
+#RewriteCond %{REQUEST_FILENAME} !-f [OR]
+#RewriteCond %{REQUEST_FILENAME} !-d
+#RewriteRule ^(.*)$ index.php?$1 [L, QSA]
 
-RewriteEngine on
+# otherwise forward it to index.php 
+#RewriteRule ^.*$ - [L]
+#RewriteRule ^.*$ index.php [L]
+#RewriteRule ^(.*)$ index.php?$1 [L, QSA]
+#RewriteRule ^(.*)$ index.php/$1 [QSA,L]
+
+RewriteEngine On
 RewriteBase /
-
-RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-s
+RewriteCond %{REQUEST_FILENAME} !-l
 RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule .* /index.php [NC,L]
 
-RewriteRule ^(.*)$ index.php?$1 [L, QSA]
+#RewriteBase /
+#RewriteEngine on 
+#RewriteRule .* index.php
