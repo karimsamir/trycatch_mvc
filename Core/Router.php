@@ -1,11 +1,4 @@
 <?php
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  * Description of Router
  *
@@ -15,8 +8,20 @@
 namespace Core;
 
 class Router {
+
     //put your code here
-    public function __construct() {
-        echo "<br> <h1>Router class loaded</h1> <br>";
+//    public function __construct() {
+//        echo "<br> <h1>Router class loaded</h1> <br>";
+//    }
+
+    protected $routes = [];
+
+    public function add($route, $params) {
+        $this->routes[$route] = $params;
     }
+    
+    public function getRoutes() {
+        return $this->routes;
+    }
+
 }
