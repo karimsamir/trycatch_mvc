@@ -15,6 +15,7 @@ class Router {
 //    }
 
     protected $routes = [];
+    protected $params = [];
 
     public function add($route, $params) {
         $this->routes[$route] = $params;

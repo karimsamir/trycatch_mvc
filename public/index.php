@@ -8,8 +8,31 @@ require_once __DIR__ . "/../Core/autoloader.php";
 //spl_autoload_register(array($this, 'loadClass'));
 use Core\Router;
 
-$obj = new Router();
- 
+$router = new Router();
+
+
+// Add some routes
+$router->add("", [
+    "Controller" => "Home",
+    "action" => "index"
+        ]
+);
+
+$router->add("posts", [
+    "Controller" => "Posts",
+    "action" => "index"
+        ]
+);
+
+$router->add("posts/new", [
+    "Controller" => "Posts",
+    "action" => "new"
+        ]
+);
+
+
+var_dump($router->getRoutes());
+
 die(var_dump($_SERVER));
 
 
