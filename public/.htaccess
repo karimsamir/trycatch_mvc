@@ -10,12 +10,17 @@
 #RewriteRule ^(.*)$ index.php?$1 [L, QSA]
 #RewriteRule ^(.*)$ index.php/$1 [QSA,L]
 
+#RewriteEngine On
+#RewriteBase /
+#RewriteCond %{REQUEST_FILENAME} !-s
+#RewriteCond %{REQUEST_FILENAME} !-l
+#RewriteCond %{REQUEST_FILENAME} !-d
+#RewriteRule .* /index.php [NC,L]
+
 RewriteEngine On
-RewriteBase /
-RewriteCond %{REQUEST_FILENAME} !-s
-RewriteCond %{REQUEST_FILENAME} !-l
+RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule .* /index.php [NC,L]
+RewriteRule ^(.*)$ /?$1 [L,QSA]
 
 #RewriteBase /
 #RewriteEngine on 

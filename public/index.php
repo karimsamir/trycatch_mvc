@@ -30,10 +30,21 @@ $router->add("posts/new", [
         ]
 );
 
+$url = $_SERVER["QUERY_STRING"];
 
+echo "<br>************************************************<br>";
+
+if($router->match($url)) {
+    var_dump($router->getParams());
+}
+else{
+    echo "<br>No route found for URL: $url<br>";
+}
+echo "<br>************************************************<br>";
 var_dump($router->getRoutes());
 
-die(var_dump($_SERVER));
+var_dump($_SERVER);
+
 
 
 
