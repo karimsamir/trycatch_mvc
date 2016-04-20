@@ -30,6 +30,8 @@ $router->add("posts/new", [
         ]
 );
 
+$router->add("{Controller}/{action}");
+
 $url = $_SERVER["QUERY_STRING"];
 
 echo "<br>************************************************<br>";
