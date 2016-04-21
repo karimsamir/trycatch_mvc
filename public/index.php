@@ -24,9 +24,9 @@ $router->add("posts", [
         ]
 );
 
-$router->add("posts/new", [
+$router->add("posts/create", [
     "Controller" => "Posts",
-    "action" => "new"
+    "action" => "create"
         ]
 );
 
@@ -35,18 +35,22 @@ $router->add("{Controller}/{id:\d+}/{action}");
 
 $url = $_SERVER["QUERY_STRING"];
 
-echo "<br>************************************************<br>";
 
-if($router->match($url)) {
-    var_dump($router->getParams());
-}
-else{
-    echo "<br>No route found for URL: $url<br>";
-}
-echo "<br>************************************************<br>";
-var_dump($router->getRoutes());
+$router->dispatch($url);
 
-var_dump($_SERVER);
+
+//echo "<br>************************************************<br>";
+//
+//if($router->match($url)) {
+//    var_dump($router->getParams());
+//}
+//else{
+//    echo "<br>No route found for URL: $url<br>";
+//}
+//echo "<br>************************************************<br>";
+//var_dump($router->getRoutes());
+//
+//var_dump($_SERVER);
 
 
 
