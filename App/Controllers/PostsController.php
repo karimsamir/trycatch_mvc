@@ -13,7 +13,7 @@ namespace App\Controllers;
  *
  * @author karim
  */
-class Posts {
+class PostsController {
 
     //put your code here
 

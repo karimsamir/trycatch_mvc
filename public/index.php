@@ -19,13 +19,13 @@ $router = new Router();
 //);
 
 $router->add("posts", [
-    "Controller" => "Posts",
+    "Controller" => "PostsController",
     "action" => "index"
         ]
 );
 
 $router->add("posts/create", [
-    "Controller" => "Posts",
+    "Controller" => "PostsController",
     "action" => "create"
         ]
 );
