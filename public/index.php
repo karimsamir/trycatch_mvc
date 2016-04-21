@@ -37,6 +37,9 @@ $router->add("posts/{id:(\d+)}/edit", [
 );
 
 
+//$router->add("admin/{Controller}/{action}", ["namespace" => "admin"]);
+
+
 //$router->add("{Controller}/{action}");
 //$router->add("{Controller}/{id:\d+}/{action}");
 

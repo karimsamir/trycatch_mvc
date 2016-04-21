@@ -18,7 +18,7 @@ class HomeController extends BaseController{
 
     //put your code here
 
-    public function index() {
+    public function indexAction() {
         echo 'Hello world from Home controller and index action';
     }
 }

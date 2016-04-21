@@ -18,16 +18,16 @@ class PostsController extends BaseController {
 
     //put your code here
 
-    public function index() {
+    public function indexAction() {
         echo 'Hello world from index action';
         var_dump($_GET);
     }
 
-        public function create() {
+        public function createAction() {
         echo 'Hello world from create action';
     }
     
-    public function edit() {
+    public function editAction() {
         echo '<br>Hello world from edit action<br>';
         var_dump($this->route_params);
     }
