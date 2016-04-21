@@ -8,6 +8,7 @@
 
 namespace App\Controllers;
 use Core\BaseController;
+use Core\View;
 
 /**
  * Description of PostController
@@ -19,6 +20,7 @@ class HomeController extends BaseController{
     //put your code here
 
     public function indexAction() {
-        echo 'Hello world from Home controller and index action';
+        View::render("home/index.php"); 
+//        echo 'Hello world from Home controller and index action';
     }
 }

@@ -40,14 +40,14 @@ abstract class BaseController {
      * run function filter before action
      */
     protected function before() {
-        echo 'before';
+//        echo 'before';
     }
 
     /**
      * run function filter after action
      */
     protected function after() {
-        echo 'after';
+//        echo 'after';
     }
 
 }
