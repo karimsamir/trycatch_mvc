@@ -30,8 +30,15 @@ $router->add("posts/create", [
         ]
 );
 
-$router->add("{Controller}/{action}");
-$router->add("{Controller}/{id:\d+}/{action}");
+$router->add("posts/{id:(\d+)}/edit", [
+    "Controller" => "PostsController",
+    "action" => "edit"
+        ]
+);
+
+
+//$router->add("{Controller}/{action}");
+//$router->add("{Controller}/{id:\d+}/{action}");
 
 $url = $_SERVER["QUERY_STRING"];
 

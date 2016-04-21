@@ -28,6 +28,7 @@ class PostsController extends Controller {
     }
     
     public function edit() {
+        echo '<br>Hello world from edit action<br>';
         var_dump($this->route_params);
     }
 }
