@@ -109,7 +109,8 @@ class Router {
             $controller = $this->convertToStudlyCaps($controller);
             // it should work without App\ as I have added a use statement
             // but for some reason it doesn't
-            $controller = "App\Controllers\\" . $controller;
+//            $controller = "App\Controllers\\" . $controller;
+            $controller = $this->getNamespace() . $controller;
 
             if (class_exists($controller)) {
                 $controller_object = new $controller($this->params);
@@ -167,4 +168,15 @@ class Router {
         return $url;
     }
 
+    /**
+     * get namespace as a function
+     * @return string
+     */
+    protected function getNamespace() {
+        $namespace = "App\Controllers\\";
+        if (array_key_exists($namespace, $this->params)) {
+            $namespace = $namespace . $this->params["namespace"] . "\\";
+        }
+        return $namespace;
+    }
 }
