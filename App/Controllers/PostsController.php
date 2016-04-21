@@ -7,21 +7,27 @@
  */
 
 namespace App\Controllers;
+use Core\Controller;
 
 /**
  * Description of PostController
  *
  * @author karim
  */
-class PostsController {
+class PostsController extends Controller {
 
     //put your code here
 
     public function index() {
         echo 'Hello world from index action';
+        var_dump($_GET);
     }
 
         public function create() {
         echo 'Hello world from create action';
+    }
+    
+    public function edit() {
+        var_dump($this->route_params);
     }
 }

@@ -6,18 +6,19 @@
  * and open the template in the editor.
  */
 
-namespace App\Controllers;
+namespace Core;
 
 /**
- * Description of PostController
+ * Base Controller
  *
  * @author karim
  */
-class HomeController extends Controller{
-
-    //put your code here
-
-    public function index() {
-        echo 'Hello world from Home controller and index action';
+abstract class Controller {
+    
+    // route params
+    protected $route_params = [];
+    
+    public function __construct($route_params) {
+        $this->route_params = $route_params;
     }
 }

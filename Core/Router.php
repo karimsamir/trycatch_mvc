@@ -56,7 +56,7 @@ class Router {
      * @return boolean true if route is found 
      */
     public function match($url) {
-        
+
         foreach ($this->routes as $route => $params) {
 
             if ($url == $route) {
@@ -65,7 +65,6 @@ class Router {
             }
         }
 //        $reg_exp = "/^(?P<controller>[a-z-]+)\/(?P<action>[a-z-]+)$/";
-
 //        foreach ($this->routes as $route => $params) {
 //            var_dump($route);
 //            var_dump("*-*-*-**-*-*-*-*-*-*-*-*-*-");
@@ -100,6 +99,8 @@ class Router {
      * @param string $url
      */
     public function dispatch($url) {
+
+        $url = $this->removeQueryStringVariables($url);
         
         if ($this->match($url)) {
 
@@ -107,11 +108,11 @@ class Router {
             $controller = $this->convertToStudlyCaps($controller);
             // it should work without App\ as I have added a use statement
             // but for some reason it doesn't
-            $controller = "App\Controllers\\" .$controller;
+            $controller = "App\Controllers\\" . $controller;
 
             if (class_exists($controller)) {
-                $controller_object = new $controller();
-                
+                $controller_object = new $controller($this->params);
+
                 $action = $this->params["action"];
                 $action = $this->convertToCamelCase($action);
 
@@ -123,8 +124,7 @@ class Router {
             } else {
                 echo "Controller class $controller not found";
             }
-        }
-        else{
+        } else {
             echo "Invalid URL: $url";
         }
     }
@@ -145,6 +145,25 @@ class Router {
      */
     protected function convertToCamelCase($string) {
         return lcfirst($this->convertToStudlyCaps($string));
+    }
+    /**
+     * remove any  extra variables from the route
+     * @param string $url
+     * @return string $url
+     */
+    protected function removeQueryStringVariables($url) {
+        
+        if ($url != '') {
+            $parts = explode("&", $url, 2);
+            
+            if (strpos($parts[0], "=") === false) {
+                $url = $parts[0];
+            }
+            else{
+                $url = '';
+            }
+        }
+        return $url;
     }
 
 }
