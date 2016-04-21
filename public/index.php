@@ -12,11 +12,11 @@ $router = new Router();
 
 
 // Add some routes
-$router->add("", [
-    "Controller" => "Home",
-    "action" => "index"
-        ]
-);
+//$router->add("", [
+//    "Controller" => "Home",
+//    "action" => "index"
+//        ]
+//);
 
 $router->add("posts", [
     "Controller" => "Posts",
@@ -31,6 +31,7 @@ $router->add("posts/new", [
 );
 
 $router->add("{Controller}/{action}");
+$router->add("{Controller}/{id:\d+}/{action}");
 
 $url = $_SERVER["QUERY_STRING"];
 
