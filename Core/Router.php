@@ -10,16 +10,19 @@ namespace Core;
 
 use App\Controllers;
 
+/**
+ * Class Router used to register routes and dispatching them
+ */
 class Router {
-
-    //put your code here
-//    public function __construct() {
-//        echo "<br> <h1>Router class loaded</h1> <br>";
-//    }
 
     protected $routes = [];
     protected $params = [];
 
+    /**
+     * Add routes to route table
+     * @param string $route url 
+     * @param array $params
+     */
     public function add($route, $params = []) {
         $this->routes[$route] = $params;
 //        // convert route to regular expression
@@ -38,12 +41,21 @@ class Router {
 //        $this->routes[$route] = $params;
     }
 
+    /**
+     * get all routes
+     * @return array
+     */
     public function getRoutes() {
         return $this->routes;
     }
 
+    /**
+     * match a route to url 
+     * check for route using url
+     * @param type $url
+     * @return boolean true if route is found 
+     */
     public function match($url) {
-var_dump($this->routes);
         
         foreach ($this->routes as $route => $params) {
 
@@ -75,28 +87,31 @@ var_dump($this->routes);
         return false;
     }
 
+    /**
+     * get route params
+     * @return array
+     */
     public function getParams() {
         return $this->params;
     }
 
+    /**
+     * execute route by loading controller and run required action
+     * @param string $url
+     */
     public function dispatch($url) {
-
-//        if (class_exists("App\Controllers\Posts")) {
-//            die("found");
-//        }
-//        $post_obj = new Controllers\Posts();
-//        $post_obj->index();
         
         if ($this->match($url)) {
-//            var_dump('check');
-//            die(var_dump($this->params));
+
             $controller = $this->params["Controller"];
             $controller = $this->convertToStudlyCaps($controller);
+            // it should work without App\ as I have added a use statement
+            // but for some reason it doesn't
             $controller = "App\Controllers\\" .$controller;
-//            var_dump("controller ==$controller:::::");
+
             if (class_exists($controller)) {
                 $controller_object = new $controller();
-//                die(var_dump(get_class_methods($controller_object)));
+                
                 $action = $this->params["action"];
                 $action = $this->convertToCamelCase($action);
 
