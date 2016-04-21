@@ -12,11 +12,11 @@ $router = new Router();
 
 
 // Add some routes
-//$router->add("", [
-//    "Controller" => "Home",
-//    "action" => "index"
-//        ]
-//);
+$router->add("", [
+    "Controller" => "HomeController",
+    "action" => "index"
+        ]
+);
 
 $router->add("posts", [
     "Controller" => "PostsController",
