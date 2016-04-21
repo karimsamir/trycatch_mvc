@@ -7,13 +7,14 @@
  */
 
 namespace App\Controllers;
+use Core\BaseController;
 
 /**
  * Description of PostController
  *
  * @author karim
  */
-class HomeController extends Controller{
+class HomeController extends BaseController{
 
     //put your code here
 

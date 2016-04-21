@@ -7,14 +7,14 @@
  */
 
 namespace App\Controllers;
-use Core\Controller;
+use Core\BaseController;
 
 /**
  * Description of PostController
  *
  * @author karim
  */
-class PostsController extends Controller {
+class PostsController extends BaseController {
 
     //put your code here
 

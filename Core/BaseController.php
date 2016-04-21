@@ -13,7 +13,7 @@ namespace Core;
  *
  * @author karim
  */
-abstract class Controller {
+abstract class BaseController {
     
     // route params
     protected $route_params = [];
