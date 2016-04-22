@@ -15,12 +15,13 @@ namespace Core;
  */
 class View {
     
-    public static function render($param) {
+    public static function render($view, $args = []) {
+
+        extract($args, EXTR_SKIP);
+        
         // going up to views folder
-        $file = "../App/Views/$param"; 
-//        $file = dirname(__DIR__) ."/App/Views/$param"; 
-//        die(var_dump(dirname(__)));
-//        die(var_dump($file));
+        $file = "../App/Views/$view"; 
+
         if (file_exists($file)) {
             require $file;
         }
