@@ -8,6 +8,8 @@
 
 namespace App\Controllers;
 use Core\BaseController;
+use Core\View;
+use App\Models\Post;
 
 /**
  * Description of PostController
@@ -19,8 +21,11 @@ class PostsController extends BaseController {
     //put your code here
 
     public function indexAction() {
-        echo 'Hello world from index action';
-        var_dump($_GET);
+//        echo 'Hello world from index action';
+//        var_dump($_GET);
+        
+        $posts = Post::getAll();
+        View::renderTemplate("posts/index.html", ["posts" => $posts]);
     }
 
         public function createAction() {
