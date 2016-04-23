@@ -15,6 +15,11 @@ namespace Core;
  */
 class View {
     
+    /**
+     * render main view file
+     * @param string $view
+     * @param array $args
+     */
     public static function render($view, $args = []) {
 
         extract($args, EXTR_SKIP);
@@ -28,5 +33,17 @@ class View {
         else{
             echo "$file not found";
         }
+    }
+    
+    
+    public static function renderTemplate($template, $args = []) {
+        static $twig = null;
+        
+        if ($twig === NULL) {
+            $loader = new \Twig_Loader_Filesystem('../App/Views');
+            $twig = new \Twig_Environment($loader);
+        }
+        
+        echo $twig->render($template, $args);
     }
 }

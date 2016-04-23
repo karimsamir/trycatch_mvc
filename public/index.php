@@ -1,8 +1,13 @@
 <?php
 
+define("APPLICATION_PATH", dirname(__DIR__));
+// require twig autoloader
+require_once APPLICATION_PATH . "/vendor/autoload.php";
+
+
 //echo "Request URL = '" . $_SERVER["QUERY_STRING"] . "'";
 //die(var_dump(__DIR__));
-require_once __DIR__ . "/../Core/autoloader.php";
+require_once APPLICATION_PATH . "/Core/autoloader.php";
 
 // $autoloader = new ClassAutoloader();
 //spl_autoload_register(array($this, 'loadClass'));
