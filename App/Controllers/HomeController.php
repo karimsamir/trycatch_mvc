@@ -20,10 +20,15 @@ class HomeController extends BaseController{
     //put your code here
 
     public function indexAction() {
-        View::render("home/index.php", [
+//        View::render("home/index.php", [
+//            "name" => "Karim",
+//            "colours" => ["red", "green", "blue"]
+//        ]); 
+//        echo 'Hello world from Home controller and index action';
+        
+        View::renderTemplate("home/index.html", [
             "name" => "Karim",
             "colours" => ["red", "green", "blue"]
-        ]); 
-//        echo 'Hello world from Home controller and index action';
+        ]);
     }
 }
