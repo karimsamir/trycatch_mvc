@@ -31,7 +31,8 @@ class View {
             require $file;
         }
         else{
-            echo "$file not found";
+//            echo "$file not found";
+            throw new \Exception("$file not found");
         }
     }
     

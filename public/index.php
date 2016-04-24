@@ -9,8 +9,12 @@ require_once APPLICATION_PATH . "/vendor/autoload.php";
 //die(var_dump(__DIR__));
 require_once APPLICATION_PATH . "/Core/autoloader.php";
 
-// $autoloader = new ClassAutoloader();
-//spl_autoload_register(array($this, 'loadClass'));
+
+// set error handler
+set_error_handler("Core\Error::errorHandler");
+set_exception_handler("Core\Error::exceptionHandler");
+
+
 use Core\Router;
 
 $router = new Router();
