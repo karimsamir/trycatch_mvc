@@ -7,6 +7,7 @@
  */
 
 namespace Core;
+use Core\View;
 
 /**
  * Description of Error
@@ -46,11 +47,12 @@ class Error {
             ini_set("error_log", $log);
             error_log($message);
 
-            if ($code == 404) {
-                echo "<h1>Page not found</h1>";
-            } else {
-                echo 'An error has occured, Please try again later';
-            }
+//            if ($code == 404) {
+//                echo "<h1>Page not found</h1>";
+//            } else {
+//                echo 'An error has occured, Please try again later';
+//            }
+            View::renderTemplate("error/$code.html");
         }
     }
 
