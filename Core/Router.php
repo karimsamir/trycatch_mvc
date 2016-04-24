@@ -130,7 +130,7 @@ class Router {
             }
         } else {
 //            echo "Invalid URL: $url";
-            throw new \Exception("Invalid URL: $url");
+            throw new \Exception("No route found.", 404);
         }
     }
 
