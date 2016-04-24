@@ -23,12 +23,23 @@ class Error {
     }
     
     public static function exceptionHandler($exception) {
-        echo "<h1>Fatal error</h1>";
-        echo "<p>Uncaught exception: "  . get_class($exception).   "</p>";
-        echo "<p>Message: "  . $exception->getMessage() .   "</p>";
-        echo "<p>stack trace: "  . $exception->getTraceAsString() .   "</p>";
-        echo "<p>Thrown in: "  . $exception->getFile() .   " on line "
+        
+        $message =  "<h1>Fatal error</h1>";
+        $message .=  "<p>Uncaught exception: "  . get_class($exception).   "</p>";
+        $message .=  "<p>Message: "  . $exception->getMessage() .   "</p>";
+        $message .=  "<p>stack trace: "  . $exception->getTraceAsString() .   "</p>";
+        $message .=  "<p>Thrown in: "  . $exception->getFile() .   " on line "
             . $exception->getLine() . "</p>";
+        
+                if (\App\Config::SHOW_ERRORS) {
+            echo $message;
+        }
+        else{
+            $log = dirname(__DIR__) . "/logs/" . date("Y-m-d") . ".txt";
+            ini_set("error_log", $log);
+            error_log($message);
+            echo 'An error has occured, Please try again later';
+        }
         
         
     }

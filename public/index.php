@@ -1,4 +1,5 @@
 <?php
+error_reporting(E_ALL);
 
 define("APPLICATION_PATH", dirname(__DIR__));
 // require twig autoloader
