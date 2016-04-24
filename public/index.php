@@ -27,22 +27,28 @@ $router->add("", [
     "action" => "index"
         ]
 );
+//
+//$router->add("posts", [
+//    "Controller" => "PostsController",
+//    "action" => "index"
+//        ]
+//);
+//
+//$router->add("posts/create", [
+//    "Controller" => "PostsController",
+//    "action" => "create"
+//        ]
+//);
+//
+//$router->add("posts/{id:(\d+)}/edit", [
+//    "Controller" => "PostsController",
+//    "action" => "edit"
+//        ]
+//);
 
-$router->add("posts", [
-    "Controller" => "PostsController",
+$router->add("address", [
+    "Controller" => "AddressController",
     "action" => "index"
-        ]
-);
-
-$router->add("posts/create", [
-    "Controller" => "PostsController",
-    "action" => "create"
-        ]
-);
-
-$router->add("posts/{id:(\d+)}/edit", [
-    "Controller" => "PostsController",
-    "action" => "edit"
         ]
 );
 
