@@ -15,7 +15,7 @@ use App\Config;
  *
  * @author karim
  */
-abstract class Model {
+abstract class BaseModel {
     
     protected static function getDB() {
         

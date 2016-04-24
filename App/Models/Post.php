@@ -7,7 +7,7 @@
  */
 
 namespace App\Models;
-use Core\Model;
+use Core\BaseModel;
 use PDO;
 
 
@@ -16,7 +16,7 @@ use PDO;
  *
  * @author karim
  */
-class Post extends Model{
+class Post extends BaseModel{
 
     public static function getAll() {
 
