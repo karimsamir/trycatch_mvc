@@ -52,6 +52,12 @@ $router->add("address", [
         ]
 );
 
+$router->add("address/{id:(\d+)}", [
+    "Controller" => "AddressController",
+    "action" => "show"
+        ]
+);
+
 
 //$router->add("admin/{Controller}/{action}", ["namespace" => "admin"]);
 

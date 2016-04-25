@@ -7,18 +7,18 @@
  */
 
 namespace App\Models;
+
 use Core\BaseModel;
 use PDO;
-
 
 /**
  * Description of Post
  *
  * @author karim
  */
-class Contact extends BaseModel{
+class Contact extends BaseModel {
 
-    public static function getAll() {
+    public function getAll() {
 
         try {
 
@@ -29,6 +29,24 @@ class Contact extends BaseModel{
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             return $results;
+        } catch (\PDOException $exc) {
+            echo $exc->getTraceAsString();
+        }
+    }
+
+    public function findById($id) {
+
+        try {
+            $result = false;
+            
+            $db = static::getDB();
+
+            $statement = $db->prepare("select * from contacts where id = :id");
+            $statement->execute(array(':id' => $id));
+            $result = $statement->fetch(PDO::FETCH_ASSOC);
+
+            return $result;
+            
         } catch (\PDOException $exc) {
             echo $exc->getTraceAsString();
         }
