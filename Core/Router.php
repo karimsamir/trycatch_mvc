@@ -24,14 +24,14 @@ class Router {
      * @param array $params
      */
     public function add($route, $params = []) {
-//        $this->routes[$route] = $params;
+
         // convert route to regular expression
         $route = preg_replace('/\//', '\\/', $route);
 
-        //covert variables
+        //convert variables
         $route = preg_replace('/\{([a-z]+)\}/', '(?P<\1>[a-z-]+)', $route);
 
-        //covert variables
+        //convert variables
         $route = preg_replace('/\{([a-z]+):([^\}]+)\}/', '(?P<\1>\2)', $route);
 
 
@@ -71,7 +71,6 @@ class Router {
 //            var_dump("*-*-*-**-*-*-*-*-*-*-*-*-*-");
             if (preg_match($route, $url, $matches)) {
                 //get named captured value
-//                $params = [];
 
                 foreach ($matches as $key => $match) {
 
@@ -129,7 +128,7 @@ class Router {
                 throw new \Exception("Controller class $controller not found");
             }
         } else {
-//            echo "Invalid URL: $url";
+            // through error if route not found
             throw new \Exception("No route found.", 404);
         }
     }
