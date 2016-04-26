@@ -8,7 +8,7 @@ All Contacts
 <h1>Contacts</h1>
 
 
-<table class="table table-striped table-bordered">
+<table class="table table-striped table-bordered table-hover">
     <tr><th>Name</th>
         <th>Phone</th>
         <th>Address</th>
@@ -20,9 +20,11 @@ All Contacts
         <td>{{contact.phone}}</td>
         <td>{{contact.address}}</td>
         <td>
-            <button class="btn btn-xs btn-primary">
-                Edit
-            </button>
+            <a href="/address/{{contact.id}}/edit">
+                <button class="btn btn-xs btn-primary">
+                    Edit
+                </button>
+            </a>
             <button class="btn btn-xs btn-danger">
                 Delete
             </button>
@@ -31,14 +33,5 @@ All Contacts
     {% endfor %}
 </table>
 
-<!--<ul>
-    {% for contact in contacts %}
-    <li>
-        <h2>{{ contact.name }}</h2>
-        <p>Phone: {{ contact.phone }}</p>
-        <p>Address: {{ contact.address }}</p>
-    </li>
-    {% endfor %}
-</ul>-->
 
 {% endblock %}
