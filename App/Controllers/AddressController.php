@@ -46,5 +46,25 @@ class AddressController extends BaseController {
         }
         View::renderTemplate("address/show.twig.php", ["contact" => $contact]);
     }
+    
+    public function edit() {
+
+//        var_dump($this->route_params);
+        // validate id is int
+        $id = htmlspecialchars($this->route_params["id"]);
+
+        if (!is_numeric($id)) {
+            header("HTTP/1.0 404 Not Found");
+        }
+
+        $contact_obj = new Contact();
+        $contact = $contact_obj->findById($this->route_params["id"]);
+
+        if ($contact == false) {
+            // redorect to show all contacts if contacts not found
+            header("Location: /address");
+        }
+        View::renderTemplate("address/edit.twig.php", ["contact" => $contact]);
+    }
 
 }
