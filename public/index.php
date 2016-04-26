@@ -64,6 +64,12 @@ $router->add("address/{id:(\d+)}/edit", [
         ]
 );
 
+$router->add("address/update", [
+    "Controller" => "AddressController",
+    "action" => "update"
+        ]
+);
+
 
 //$router->add("admin/{Controller}/{action}", ["namespace" => "admin"]);
 

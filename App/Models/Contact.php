@@ -38,7 +38,7 @@ class Contact extends BaseModel {
 
         try {
             $result = false;
-            
+
             $db = static::getDB();
 
             $statement = $db->prepare("select * from contacts where id = :id");
@@ -46,7 +46,36 @@ class Contact extends BaseModel {
             $result = $statement->fetch(PDO::FETCH_ASSOC);
 
             return $result;
-            
+        } catch (\PDOException $exc) {
+            echo $exc->getTraceAsString();
+        }
+    }
+
+    public function updateContact($contactDetails, $id) {
+
+        try {
+            $result = false;
+
+            $db = static::getDB();
+
+
+//           extract($contactDetails, EXTR_SKIP);
+//           die(var_dump($name, $phone, $address));
+
+            $statement = $db->prepare("UPDATE `contacts` "
+                    . "SET name=:name, phone=:phone, address=:address "
+                    . "where id=:id");
+            $statement->bindParam(":name", $contactDetails["name"]);
+            $statement->bindParam(":phone", $contactDetails["phone"]);
+            $statement->bindParam(":address", $contactDetails["address"]);
+            $statement->bindParam(":id", $id);
+            $result = $statement->execute();
+
+//            $statement = $db->prepare("select * from contacts where id = :id");
+//            $statement->execute(array(':id' => $id));
+//            $result = $statement->fetch(PDO::FETCH_ASSOC);
+
+            return $result;
         } catch (\PDOException $exc) {
             echo $exc->getTraceAsString();
         }
