@@ -46,26 +46,26 @@ $router->add("", [
 //        ]
 //);
 
-$router->add("address", [
-    "Controller" => "AddressController",
+$router->add("contacts", [
+    "Controller" => "ContactsController",
     "action" => "index"
         ]
 );
 
-$router->add("address/{id:(\d+)}", [
-    "Controller" => "AddressController",
+$router->add("contacts/{id:(\d+)}", [
+    "Controller" => "ContactsController",
     "action" => "show"
         ]
 );
 
-$router->add("address/{id:(\d+)}/edit", [
-    "Controller" => "AddressController",
+$router->add("contacts/{id:(\d+)}/edit", [
+    "Controller" => "ContactsController",
     "action" => "edit"
         ]
 );
 
-$router->add("address/update", [
-    "Controller" => "AddressController",
+$router->add("contacts/update", [
+    "Controller" => "ContactsController",
     "action" => "update"
         ]
 );
@@ -79,6 +79,7 @@ $router->add("address/update", [
 
 $url = $_SERVER["QUERY_STRING"];
 
+session_start();
 
 $router->dispatch($url);
 

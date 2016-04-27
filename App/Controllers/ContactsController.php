@@ -19,7 +19,7 @@ use App\Models\Contact;
  *
  * @author karim
  */
-class AddressController extends BaseController {
+class ContactsController extends BaseController {
 
     public function index() {
         $contact_obj = new Contact();
