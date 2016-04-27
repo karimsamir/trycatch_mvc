@@ -7,7 +7,7 @@ Contact - {{ contact.name }}
 {% block body %} 
 <h1>Edit {{ contact.name }}</h1>
 
-<form method="post" action="/address/update">
+<form method="post" action="/contacts/update">
     <input type="hidden" name="id" value="{{ contact.id }}">
     <div class="form-group">
         <label for="name">Contact name</label>

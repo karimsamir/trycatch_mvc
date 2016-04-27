@@ -6,8 +6,7 @@ define("APPLICATION_PATH", dirname(__DIR__));
 require_once APPLICATION_PATH . "/vendor/autoload.php";
 
 
-//echo "Request URL = '" . $_SERVER["QUERY_STRING"] . "'";
-//die(var_dump(__DIR__));
+// require application loader
 require_once APPLICATION_PATH . "/Core/autoloader.php";
 
 
@@ -27,24 +26,6 @@ $router->add("", [
     "action" => "index"
         ]
 );
-//
-//$router->add("posts", [
-//    "Controller" => "PostsController",
-//    "action" => "index"
-//        ]
-//);
-//
-//$router->add("posts/create", [
-//    "Controller" => "PostsController",
-//    "action" => "create"
-//        ]
-//);
-//
-//$router->add("posts/{id:(\d+)}/edit", [
-//    "Controller" => "PostsController",
-//    "action" => "edit"
-//        ]
-//);
 
 $router->add("contacts", [
     "Controller" => "ContactsController",
@@ -81,28 +62,5 @@ $url = $_SERVER["QUERY_STRING"];
 
 session_start();
 
+// get to controller function
 $router->dispatch($url);
-
-
-//echo "<br>************************************************<br>";
-//
-//if($router->match($url)) {
-//    var_dump($router->getParams());
-//}
-//else{
-//    echo "<br>No route found for URL: $url<br>";
-//}
-//echo "<br>************************************************<br>";
-//var_dump($router->getRoutes());
-//
-//var_dump($_SERVER);
-
-
-
-
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-

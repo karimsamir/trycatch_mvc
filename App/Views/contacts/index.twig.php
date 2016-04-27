@@ -20,7 +20,7 @@ All Contacts
         <td>{{contact.phone}}</td>
         <td>{{contact.address}}</td>
         <td>
-            <a href="/address/{{contact.id}}/edit">
+            <a href="/contacts/{{contact.id}}/edit">
                 <button class="btn btn-xs btn-primary">
                     Edit
                 </button>

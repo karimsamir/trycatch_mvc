@@ -50,5 +50,9 @@ abstract class BaseController {
     protected function after() {
 //        echo 'after';
     }
+    
+    protected function show404() {
+        View::renderTemplate("error/404.html");
+    }
 
 }

@@ -21,21 +21,22 @@ use App\Models\Contact;
  */
 class ContactsController extends BaseController {
 
-    public function index() {
+    public function indexAction() {
         $contact_obj = new Contact();
         $contacts = $contact_obj->getAll();
 
-        View::renderTemplate("address/index.twig.php", ["contacts" => $contacts]);
+        View::renderTemplate("contacts/index.twig.php", ["contacts" => $contacts]);
     }
 
-    public function show() {
+    public function showAction() {
 
         // validate id is int
         $id = $this->filterInput($this->route_params["id"]);
 
 
         if (!is_numeric($id)) {
-            header("HTTP/1.0 404 Not Found");
+            $this->show404();
+            return;
         }
 
         $contact_obj = new Contact();
@@ -43,18 +44,19 @@ class ContactsController extends BaseController {
 
         if ($contact == false) {
             // redirect to show all contacts if contacts not found
-            header("Location: /address");
+            header("Location: /contacts");
         }
-        View::renderTemplate("address/show.twig.php", ["contact" => $contact]);
+        View::renderTemplate("contacts/show.twig.php", ["contact" => $contact]);
     }
 
-    public function edit() {
+    public function editAction() {
 
         // validate id is int
-        $id = $this->filterInput($this->route_params["id"]);
+        $id = $this->route_params["id"];
 
-        if (!is_numeric($id)) {
-            header("HTTP/1.0 404 Not Found");
+        if (filter_var($id, FILTER_VALIDATE_INT) === false) {
+            $this->show404();
+            return;
         }
 
         $contact_obj = new Contact();
@@ -62,13 +64,22 @@ class ContactsController extends BaseController {
 
         if ($contact == false) {
             // redirect to show all contacts if contacts not found
-            header("Location: /address");
+            $this->show404();
+            return;
         }
-        View::renderTemplate("address/edit.twig.php", ["contact" => $contact]);
+        View::renderTemplate("contacts/edit.twig.php", ["contact" => $contact]);
     }
 
-    public function update() {
+    /**
+     * This is the action to update contacts
+     * it should only run through post
+     */
+    public function updateAction() {
 
+        if (empty($_POST)) {
+            $this->show404();
+            return;
+        }
         $contactDetails  = array();
 
         $id = $_POST["id"];
@@ -79,14 +90,15 @@ class ContactsController extends BaseController {
         // validate id is int
         if (filter_var($id, FILTER_VALIDATE_INT) === false) {
             // redirect to show all contacts if contacts not found
-            header("Location: /address");
+            $this->show404();
+            return;
         }
 
         $contact_obj = new Contact();
         $result = $contact_obj->updateContact($contactDetails, $id);
 
         // redirect to show all contacts
-        header("Location: /address");
+        header("Location: /contacts");
     }
 
 }
