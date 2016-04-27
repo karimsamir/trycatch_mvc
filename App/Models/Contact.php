@@ -81,4 +81,33 @@ class Contact extends BaseModel {
         }
     }
 
+    public function addNewContact($contactDetails) {
+
+        try {
+            $result = false;
+
+            $db = static::getDB();
+
+
+//           extract($contactDetails, EXTR_SKIP);
+//           die(var_dump($name, $phone, $address));
+
+            $statement = $db->prepare("INSERT INTO `contacts` "
+                    . "(name, phone, address) "
+                    . "VALUES (:name, :phone, :address)");
+            $statement->bindParam(":name", $contactDetails["name"]);
+            $statement->bindParam(":phone", $contactDetails["phone"]);
+            $statement->bindParam(":address", $contactDetails["address"]);
+            $result = $statement->execute();
+
+//            $statement = $db->prepare("select * from contacts where id = :id");
+//            $statement->execute(array(':id' => $id));
+//            $result = $statement->fetch(PDO::FETCH_ASSOC);
+
+            return $result;
+        } catch (\PDOException $exc) {
+            echo $exc->getTraceAsString();
+        }
+    }
+
 }

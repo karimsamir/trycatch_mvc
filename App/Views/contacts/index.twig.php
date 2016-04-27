@@ -5,18 +5,24 @@ All Contacts
 {% endblock %}
 
 {% block body %} 
+<div class="col-md-9">
 <h1>Contacts</h1>
 
+<a href="/contacts/create">Add new contact</a>
 
-<table class="table table-striped table-bordered table-hover">
-    <tr><th>Name</th>
+<table class="table table-striped table-bordered table-hover ">
+    <thead><th>Name</th>
         <th>Phone</th>
         <th>Address</th>
         <th></th>
-    </tr>
+    </thead>
     {% for contact in contacts %}
     <tr>
-        <td>{{contact.name}}</td>
+        <td>
+            <a href="/contacts/{{contact.id}}"> 
+                {{contact.name}}
+            </a>
+        </td>
         <td>{{contact.phone}}</td>
         <td>{{contact.address}}</td>
         <td>
@@ -32,6 +38,6 @@ All Contacts
     </tr>
     {% endfor %}
 </table>
-
+</div>
 
 {% endblock %}

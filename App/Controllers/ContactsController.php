@@ -21,20 +21,26 @@ use App\Models\Contact;
  */
 class ContactsController extends BaseController {
 
+    /**
+     * show all contacts
+     */
     public function indexAction() {
         $contact_obj = new Contact();
+        // get all contacts
         $contacts = $contact_obj->getAll();
 
         View::renderTemplate("contacts/index.twig.php", ["contacts" => $contacts]);
     }
 
+    /**
+     * show selected contact
+     */
     public function showAction() {
 
         // validate id is int
-        $id = $this->filterInput($this->route_params["id"]);
+        $id = $this->route_params["id"];
 
-
-        if (!is_numeric($id)) {
+        if (filter_var($id, FILTER_VALIDATE_INT) === false) {
             $this->show404();
             return;
         }
@@ -49,6 +55,9 @@ class ContactsController extends BaseController {
         View::renderTemplate("contacts/show.twig.php", ["contact" => $contact]);
     }
 
+    /**
+     * show an edit form for a selected contact
+     */
     public function editAction() {
 
         // validate id is int
@@ -80,7 +89,7 @@ class ContactsController extends BaseController {
             $this->show404();
             return;
         }
-        $contactDetails  = array();
+        $contactDetails = array();
 
         $id = $_POST["id"];
         $contactDetails["name"] = filter_var($_POST["name"], FILTER_SANITIZE_STRING);
@@ -99,6 +108,43 @@ class ContactsController extends BaseController {
 
         // redirect to show all contacts
         header("Location: /contacts");
+    }
+
+    /**
+     * show an edit form for a selected contact
+     */
+    public function createAction() {
+
+        View::renderTemplate("contacts/create.twig.php");
+    }
+
+    /**
+     * This is the action to update contacts
+     * it should only run through post
+     */
+    public function storeAction() {
+
+        if (empty($_POST)) {
+            $this->show404();
+            return;
+        }
+        $contactDetails = $this->validateInput();
+
+        $contact_obj = new Contact();
+        $result = $contact_obj->addNewContact($contactDetails);
+
+        // redirect to show all contacts
+        header("Location: /contacts");
+    }
+
+    private function validateInput() {
+        $contactDetails = array();
+
+        $contactDetails["name"] = filter_var($_POST["name"], FILTER_SANITIZE_STRING);
+        $contactDetails["phone"] = filter_var($_POST["phone"], FILTER_SANITIZE_STRING);
+        $contactDetails["address"] = filter_var($_POST["address"], FILTER_SANITIZE_STRING);
+        
+        return $contactDetails;
     }
 
 }
