@@ -17,6 +17,12 @@ use App\Config;
  */
 abstract class BaseModel {
     
+    public $db;
+    
+    public function __construct() {
+        $this->db = static::getDB();
+    }
+    
     protected static function getDB() {
         
         static $db = null;

@@ -18,13 +18,15 @@ use PDO;
  */
 class Contact extends BaseModel {
 
+    /**
+     * get all contacts
+     * @return array
+     */
     public function getAll() {
 
         try {
 
-            $db = static::getDB();
-
-            $stmt = $db->query("select * from contacts");
+            $stmt = $this->db->query("select * from contacts");
 
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -34,14 +36,17 @@ class Contact extends BaseModel {
         }
     }
 
+    /**
+     * find contact by its id
+     * @param int $id
+     * @return array contact array
+     */
     public function findById($id) {
 
         try {
             $result = false;
 
-            $db = static::getDB();
-
-            $statement = $db->prepare("select * from contacts where id = :id");
+            $statement = $this->db->prepare("select * from contacts where id = :id");
             $statement->execute(array(':id' => $id));
             $result = $statement->fetch(PDO::FETCH_ASSOC);
 
@@ -51,18 +56,18 @@ class Contact extends BaseModel {
         }
     }
 
+    /**
+     * update contact details
+     * @param array $contactDetails
+     * @param int $id
+     * @return int affected rows
+     */
     public function updateContact($contactDetails, $id) {
 
         try {
             $result = false;
 
-            $db = static::getDB();
-
-
-//           extract($contactDetails, EXTR_SKIP);
-//           die(var_dump($name, $phone, $address));
-
-            $statement = $db->prepare("UPDATE `contacts` "
+            $statement = $this->db->prepare("UPDATE `contacts` "
                     . "SET name=:name, phone=:phone, address=:address "
                     . "where id=:id");
             $statement->bindParam(":name", $contactDetails["name"]);
@@ -71,28 +76,23 @@ class Contact extends BaseModel {
             $statement->bindParam(":id", $id);
             $result = $statement->execute();
 
-//            $statement = $db->prepare("select * from contacts where id = :id");
-//            $statement->execute(array(':id' => $id));
-//            $result = $statement->fetch(PDO::FETCH_ASSOC);
-
             return $result;
         } catch (\PDOException $exc) {
             echo $exc->getTraceAsString();
         }
     }
 
+    /**
+     * add new contact
+     * @param array $contactDetails
+     * @return int inserted id
+     */
     public function addNewContact($contactDetails) {
 
         try {
             $result = false;
 
-            $db = static::getDB();
-
-
-//           extract($contactDetails, EXTR_SKIP);
-//           die(var_dump($name, $phone, $address));
-
-            $statement = $db->prepare("INSERT INTO `contacts` "
+            $statement = $this->db->prepare("INSERT INTO `contacts` "
                     . "(name, phone, address) "
                     . "VALUES (:name, :phone, :address)");
             $statement->bindParam(":name", $contactDetails["name"]);
@@ -100,9 +100,25 @@ class Contact extends BaseModel {
             $statement->bindParam(":address", $contactDetails["address"]);
             $result = $statement->execute();
 
-//            $statement = $db->prepare("select * from contacts where id = :id");
-//            $statement->execute(array(':id' => $id));
-//            $result = $statement->fetch(PDO::FETCH_ASSOC);
+            return $result;
+        } catch (\PDOException $exc) {
+            echo $exc->getTraceAsString();
+        }
+    }
+
+    /**
+     * delete contact by its id
+     * @param int $id
+     * @return int rows affected
+     */
+    public function deleteById($id) {
+
+        try {
+            $result = false;
+
+            $statement = $this->db->prepare("DELETE FROM `contacts` where id=:id");
+            $statement->bindParam(":id", $id, PDO::PARAM_INT);
+            $result = $statement->execute();
 
             return $result;
         } catch (\PDOException $exc) {
