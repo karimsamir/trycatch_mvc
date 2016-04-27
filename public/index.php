@@ -22,7 +22,7 @@ $router = new Router();
 
 // Add some routes
 $router->add("", [
-    "Controller" => "HomeController",
+    "Controller" => "ContactsController",
     "action" => "index"
         ]
 );
