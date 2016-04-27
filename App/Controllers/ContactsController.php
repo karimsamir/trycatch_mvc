@@ -69,7 +69,7 @@ class ContactsController extends BaseController {
         }
 
         $contact_obj = new Contact();
-        $contact = $contact_obj->findById($this->route_params["id"]);
+        $contact = $contact_obj->findById($id);
 
         if ($contact == false) {
             // redirect to show all contacts if contacts not found
@@ -119,7 +119,7 @@ class ContactsController extends BaseController {
     }
 
     /**
-     * This is the action to update contacts
+     * This is the action to store  contacts
      * it should only run through post
      */
     public function storeAction() {
@@ -137,13 +137,42 @@ class ContactsController extends BaseController {
         header("Location: /contacts");
     }
 
+    /**
+     * This is the action to store  contacts
+     * it should only run through post
+     */
+    public function deleteAction() {
+
+        // validate id is int
+        $id = $this->route_params["id"];
+
+        if (filter_var($id, FILTER_VALIDATE_INT) === false) {
+            $this->show404();
+            return;
+        }
+
+        $contact_obj = new Contact();
+        $contact = $contact_obj->findById($id);
+
+        if ($contact == false) {
+            // redirect to show all contacts if contacts not found
+            $this->show404();
+            return;
+        }
+        else{
+            $contact_obj->deleteById($id);
+            // redirect to show all contacts
+            header("Location: /contacts");
+        }
+    }
+
     private function validateInput() {
         $contactDetails = array();
 
         $contactDetails["name"] = filter_var($_POST["name"], FILTER_SANITIZE_STRING);
         $contactDetails["phone"] = filter_var($_POST["phone"], FILTER_SANITIZE_STRING);
         $contactDetails["address"] = filter_var($_POST["address"], FILTER_SANITIZE_STRING);
-        
+
         return $contactDetails;
     }
 

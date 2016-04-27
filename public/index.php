@@ -63,6 +63,11 @@ $router->add("contacts/store", [
         ]
 );
 
+$router->add("contacts/delete/{id:(\d+)}", [
+    "Controller" => "ContactsController",
+    "action" => "delete"
+        ]
+);
 
 //$router->add("admin/{Controller}/{action}", ["namespace" => "admin"]);
 

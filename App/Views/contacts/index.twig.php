@@ -31,6 +31,7 @@ All Contacts
                     Edit
                 </button>
             </a>
+            <a href="/contacts/delete/{{contact.id}}">
             <button class="btn btn-xs btn-danger">
                 Delete
             </button>
