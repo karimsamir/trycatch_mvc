@@ -51,9 +51,15 @@ $router->add("contacts/update", [
         ]
 );
 
-$router->add("contacts/add", [
+$router->add("contacts/create", [
     "Controller" => "ContactsController",
-    "action" => "add"
+    "action" => "create"
+        ]
+);
+
+$router->add("contacts/store", [
+    "Controller" => "ContactsController",
+    "action" => "store"
         ]
 );
 
