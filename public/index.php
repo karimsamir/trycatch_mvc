@@ -51,6 +51,12 @@ $router->add("contacts/update", [
         ]
 );
 
+$router->add("contacts/add", [
+    "Controller" => "ContactsController",
+    "action" => "add"
+        ]
+);
+
 
 //$router->add("admin/{Controller}/{action}", ["namespace" => "admin"]);
 
