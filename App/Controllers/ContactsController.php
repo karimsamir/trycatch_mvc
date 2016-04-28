@@ -1,13 +1,5 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- * 
- * index (collection), create, store, show, edit, update, delete
- */
-
 namespace App\Controllers;
 
 use Core\BaseController;
@@ -15,7 +7,7 @@ use Core\View;
 use App\Models\Contact;
 
 /**
- * Description of AddressController
+ * Description of ContactsController
  *
  * @author karim
  */
@@ -25,6 +17,7 @@ class ContactsController extends BaseController {
      * show all contacts
      */
     public function indexAction() {
+        
         $contact_obj = new Contact();
         // get all contacts
         $contacts = $contact_obj->getAll();
@@ -46,12 +39,16 @@ class ContactsController extends BaseController {
         }
 
         $contact_obj = new Contact();
-        $contact = $contact_obj->findById($this->route_params["id"]);
+        $contact = $contact_obj->findById($id);
 
         if ($contact == false) {
+            //set error message
+            $_SESSION["error_message"] = "Contact not found or deleted";
             // redirect to show all contacts if contacts not found
             header("Location: /contacts");
+            return;
         }
+
         View::renderTemplate("contacts/show.twig.php", ["contact" => $contact]);
     }
 
@@ -60,23 +57,22 @@ class ContactsController extends BaseController {
      */
     public function editAction() {
 
-        // validate id is int
+        
         $id = $this->route_params["id"];
-
-        if (filter_var($id, FILTER_VALIDATE_INT) === false) {
-            $this->show404();
-            return;
-        }
 
         $contact_obj = new Contact();
         $contact = $contact_obj->findById($id);
 
         if ($contact == false) {
+            //set error message
+            $_SESSION["error_message"] = "Contact not found or deleted";
             // redirect to show all contacts if contacts not found
-            $this->show404();
+            header("Location: /contacts");
             return;
         }
-        View::renderTemplate("contacts/edit.twig.php", ["contact" => $contact]);
+        View::renderTemplate("contacts/edit.twig.php", [
+            "contact" => $contact
+        ]);
     }
 
     /**
@@ -89,23 +85,30 @@ class ContactsController extends BaseController {
             $this->show404();
             return;
         }
-        $contactDetails = array();
 
         $id = $_POST["id"];
-        $contactDetails["name"] = filter_var($_POST["name"], FILTER_SANITIZE_STRING);
-        $contactDetails["phone"] = filter_var($_POST["phone"], FILTER_SANITIZE_STRING);
-        $contactDetails["address"] = filter_var($_POST["address"], FILTER_SANITIZE_STRING);
+        $contactDetails = $this->validateInput();
 
         // validate id is int
-        if (filter_var($id, FILTER_VALIDATE_INT) === false) {
-            // redirect to show all contacts if contacts not found
-            $this->show404();
+        if (filter_var($id, FILTER_VALIDATE_INT) === false ||
+                $this->validateToken() === false) {
+            //set error message
+            $_SESSION["error_message"] = "Invalid Data supplied";
+            // redirect to show all contacts
+            header("Location: /contacts");
             return;
         }
 
         $contact_obj = new Contact();
         $result = $contact_obj->updateContact($contactDetails, $id);
-
+        
+        // show message depends on result from DB
+        if ($result == true) {
+            $_SESSION["success_message"] = "Contact updated successfully";
+        }
+        else{
+            $_SESSION["error_message"] = "Failed to update Contact";
+        }
         // redirect to show all contacts
         header("Location: /contacts");
     }
@@ -124,14 +127,23 @@ class ContactsController extends BaseController {
      */
     public function storeAction() {
 
-        if (empty($_POST)) {
+        if (empty($_POST) || $this->validateToken() === false) {
             $this->show404();
             return;
         }
+
         $contactDetails = $this->validateInput();
 
         $contact_obj = new Contact();
         $result = $contact_obj->addNewContact($contactDetails);
+
+        // show message depends on result from DB
+        if ($result == true) {
+            $_SESSION["success_message"] = "Contact added successfully";
+        }
+        else{
+            $_SESSION["error_message"] = "Failed to add Contact";
+        }
 
         // redirect to show all contacts
         header("Location: /contacts");
@@ -158,11 +170,12 @@ class ContactsController extends BaseController {
             // redirect to show all contacts if contacts not found
             $this->show404();
             return;
-        }
-        else{
+        } else {
             $contact_obj->deleteById($id);
+            
+            $_SESSION["success_message"] = "Contact deleted successfully";
             // redirect to show all contacts
-            header("Location: /contacts");
+            header("Location: /contacts"); 
         }
     }
 

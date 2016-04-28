@@ -50,13 +50,7 @@ class View {
         $args["session"] = $_SESSION;
         echo $twig->render($template, $args);
 
-        $this->removeSessionMsg();
-    }
-
-    /**
-     * remove session message like flash messages
-     */
-    private function removeSessionMsg() {
+        //remove session message like flash messages
         unset($_SESSION["error_message"]);
         unset($_SESSION["success_message"]);
     }
