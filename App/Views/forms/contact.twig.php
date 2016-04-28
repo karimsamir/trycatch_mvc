@@ -15,6 +15,6 @@
         <input type="text" class="form-control" id="address" name="address"
                placeholder="Contact address" value="{{ contact.address }}">
     </div>
-
+    <input type="hidden" name="_token" value="{{ session._token }}">
     <button type="submit" class="btn btn-default">Save</button>
 </form>
