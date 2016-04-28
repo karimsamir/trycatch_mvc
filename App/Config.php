@@ -22,5 +22,7 @@ class Config {
     const DB_PASSWORD = "";
     
     const SHOW_ERRORS = true;
+    
+    const APP_KEY = "testnewsdsds_Dsdsdad";
 
 }
