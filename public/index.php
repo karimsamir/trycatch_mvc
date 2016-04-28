@@ -20,6 +20,20 @@ use Core\Router;
 $router = new Router();
 
 
+// Error controler
+$router->add("pagenotfound", [
+    "Controller" => "ErrorController",
+    "action" => "pagenotfound"
+        ]
+);
+
+$router->add("servererror", [
+    "Controller" => "ErrorController",
+    "action" => "servererror"
+        ]
+);
+
+
 // Add some routes
 $router->add("", [
     "Controller" => "ContactsController",

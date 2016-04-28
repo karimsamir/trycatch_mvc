@@ -48,12 +48,15 @@ class Error {
             ini_set("error_log", $log);
             error_log($message);
 
-//            if ($code == 404) {
-//                echo "<h1>Page not found</h1>";
-//            } else {
-//                echo 'An error has occured, Please try again later';
-//            }
-            View::renderTemplate("error/$code.html");
+            if ($code == 404) {
+                // redirect to show all contacts
+                header("Location: /pagenotfound");
+            } else {
+                // redirect to show all contacts
+                header("Location: /servererror");
+            }
+            return;
+//            View::renderTemplate("error/$code.html");
         }
     }
 
