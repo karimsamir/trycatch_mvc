@@ -83,6 +83,14 @@ $router->add("contacts/delete/{id:(\d+)}", [
         ]
 );
 
+//Ajax Requests
+$router->add("contacts/ajaxgetallcontacts", [
+    "Controller" => "ContactsController",
+    "action" => "ajaxGetAllContacts"
+        ]
+);
+
+
 //$router->add("admin/{Controller}/{action}", ["namespace" => "admin"]);
 
 

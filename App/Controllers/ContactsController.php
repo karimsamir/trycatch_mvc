@@ -17,12 +17,32 @@ class ContactsController extends BaseController {
      * show all contacts
      */
     public function indexAction() {
-        
-        $contact_obj = new Contact();
-        // get all contacts
-        $contacts = $contact_obj->getAll();
 
-        View::renderTemplate("contacts/index.twig.php", ["contacts" => $contacts]);
+//        if (strtolower(filter_input(INPUT_SERVER, 'HTTP_X_REQUESTED_WITH')) === 'xmlhttprequest') {
+//            // I'm AJAX!
+//        }
+//
+//        $contact_obj = new Contact();
+//        // get all contacts
+//        $contacts = $contact_obj->getAll();
+
+        View::renderTemplate("contacts/index.twig.php");
+    }
+
+    public function ajaxGetAllContactsAction() {
+
+        if (strtolower(filter_input(INPUT_SERVER, 'HTTP_X_REQUESTED_WITH')) === 'xmlhttprequest') {
+            $contact_obj = new Contact();
+            // get all contacts
+            $contacts = $contact_obj->getAll();
+
+            echo json_encode($contacts);
+        } 
+        else {
+            // redirect to show all contacts if not ajax
+            header("Location: /contacts");
+            return;
+        }
     }
 
     /**
@@ -57,7 +77,7 @@ class ContactsController extends BaseController {
      */
     public function editAction() {
 
-        
+
         $id = $this->route_params["id"];
 
         $contact_obj = new Contact();
@@ -101,12 +121,11 @@ class ContactsController extends BaseController {
 
         $contact_obj = new Contact();
         $result = $contact_obj->updateContact($contactDetails, $id);
-        
+
         // show message depends on result from DB
         if ($result == true) {
             $_SESSION["success_message"] = "Contact updated successfully";
-        }
-        else{
+        } else {
             $_SESSION["error_message"] = "Failed to update Contact";
         }
         // redirect to show all contacts
@@ -140,8 +159,7 @@ class ContactsController extends BaseController {
         // show message depends on result from DB
         if ($result == true) {
             $_SESSION["success_message"] = "Contact added successfully";
-        }
-        else{
+        } else {
             $_SESSION["error_message"] = "Failed to add Contact";
         }
 
@@ -172,10 +190,10 @@ class ContactsController extends BaseController {
             return;
         } else {
             $contact_obj->deleteById($id);
-            
+
             $_SESSION["success_message"] = "Contact deleted successfully";
             // redirect to show all contacts
-            header("Location: /contacts"); 
+            header("Location: /contacts");
         }
     }
 
