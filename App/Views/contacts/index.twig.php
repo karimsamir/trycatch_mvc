@@ -4,19 +4,31 @@
 All Contacts
 {% endblock %}
 
+{% block scripts %} 
+    <script src="/js/contacts.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            ajaxGetAllContacts();
+        });
+    </script>
+{% endblock %}
+
 {% block body %} 
 <div class="col-md-9">
 <h1>Contacts</h1>
 
 <a href="/contacts/create">Add new contact</a>
 
-<table class="table table-striped table-bordered table-hover ">
+<table id="tblContacts" class="table table-striped table-bordered table-hover ">
     <thead><th>Name</th>
         <th>Phone</th>
         <th>Address</th>
         <th></th>
     </thead>
-    {% for contact in contacts %}
+    <tbody>
+        
+    </tbody>
+<!--    {% for contact in contacts %}
     <tr>
         <td>
             <a href="/contacts/{{contact.id}}"> 
@@ -37,7 +49,7 @@ All Contacts
             </button>
         </td>
     </tr>
-    {% endfor %}
+    {% endfor %}-->
 </table>
 </div>
 
