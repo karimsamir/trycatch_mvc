@@ -18,14 +18,6 @@ class ContactsController extends BaseController {
      */
     public function indexAction() {
 
-//        if (strtolower(filter_input(INPUT_SERVER, 'HTTP_X_REQUESTED_WITH')) === 'xmlhttprequest') {
-//            // I'm AJAX!
-//        }
-//
-//        $contact_obj = new Contact();
-//        // get all contacts
-//        $contacts = $contact_obj->getAll();
-
         View::renderTemplate("contacts/index.twig.php");
     }
 
@@ -40,7 +32,7 @@ class ContactsController extends BaseController {
         } 
         else {
             // redirect to show all contacts if not ajax
-            header("Location: /contacts");
+           $this->show404();
             return;
         }
     }
