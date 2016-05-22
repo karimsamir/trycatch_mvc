@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use Core\BaseController;
+use Core\Controller;
 use Core\View;
 use App\Models\Contact;
 
@@ -12,7 +12,7 @@ use App\Models\Contact;
  *
  * @author karim
  */
-class ContactsController extends BaseController {
+class ContactsController extends Controller {
 
     /**
      * show all contacts

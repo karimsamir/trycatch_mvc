@@ -15,7 +15,7 @@ use App\Config;
  *
  * @author karim
  */
-abstract class BaseController {
+abstract class Controller {
 
     // route params
     protected $route_params = [];

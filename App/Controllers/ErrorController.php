@@ -1,7 +1,7 @@
 <?php
 namespace App\Controllers;
 
-use Core\BaseController;
+use Core\Controller;
 use Core\View;
 
 /**
@@ -9,7 +9,7 @@ use Core\View;
  *
  * @author karim
  */
-class ErrorController extends BaseController {
+class ErrorController extends Controller {
 
     /**
      * show 404 page
