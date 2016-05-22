@@ -156,7 +156,7 @@ class ContactsController extends BaseController {
             $this->show404();
             return;
         }
-
+        // validate other contacts data
         $contactDetails = $this->validateInput();
 
         $contact_obj = new Contact();

@@ -1,22 +1,16 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace App\Models;
 
-use Core\BaseModel;
+use Core\Model;
 use PDO;
 
 /**
- * Description of Post
+ * Contact class  represent contact table 
  *
  * @author karim
  */
-class Contact extends BaseModel {
+class Contact extends Model {
 
     /**
      * get all contacts
@@ -32,7 +26,8 @@ class Contact extends BaseModel {
 
             return $results;
         } catch (\PDOException $exc) {
-            echo $exc->getTraceAsString();
+
+            $this->error_log("Error", $exc->getTraceAsString());
         }
     }
 
@@ -43,8 +38,9 @@ class Contact extends BaseModel {
      */
     public function findById($id) {
 
+        $result = false;
+
         try {
-            $result = false;
 
             $statement = $this->db->prepare("select * from contacts where id = :id");
             $statement->execute(array(':id' => $id));
@@ -52,8 +48,9 @@ class Contact extends BaseModel {
 
             return $result;
         } catch (\PDOException $exc) {
-            echo $exc->getTraceAsString();
+            $this->error_log("Error", $exc->getTraceAsString());
         }
+        return $result;
     }
 
     /**
@@ -64,8 +61,9 @@ class Contact extends BaseModel {
      */
     public function updateContact($contactDetails, $id) {
 
+        $result = false;
+
         try {
-            $result = false;
 
             $statement = $this->db->prepare("UPDATE `contacts` "
                     . "SET name=:name, phone=:phone, address=:address "
@@ -74,12 +72,14 @@ class Contact extends BaseModel {
             $statement->bindParam(":phone", $contactDetails["phone"]);
             $statement->bindParam(":address", $contactDetails["address"]);
             $statement->bindParam(":id", $id);
-            $result = $statement->execute();
 
-            return $result;
+            $result = $statement->execute();
+            
         } catch (\PDOException $exc) {
-            echo $exc->getTraceAsString();
+            $this->error_log("Error", $exc->getTraceAsString());
         }
+
+        return $result;
     }
 
     /**
@@ -89,8 +89,9 @@ class Contact extends BaseModel {
      */
     public function addNewContact($contactDetails) {
 
+        $result = false;
+
         try {
-            $result = false;
 
             $statement = $this->db->prepare("INSERT INTO `contacts` "
                     . "(name, phone, address) "
@@ -98,12 +99,13 @@ class Contact extends BaseModel {
             $statement->bindParam(":name", $contactDetails["name"]);
             $statement->bindParam(":phone", $contactDetails["phone"]);
             $statement->bindParam(":address", $contactDetails["address"]);
+            
             $result = $statement->execute();
-
-            return $result;
+            
         } catch (\PDOException $exc) {
-            echo $exc->getTraceAsString();
+            $this->error_log("Error", $exc->getTraceAsString());
         }
+        return $result;
     }
 
     /**
@@ -113,17 +115,19 @@ class Contact extends BaseModel {
      */
     public function deleteById($id) {
 
+        $result = false;
+
         try {
-            $result = false;
 
             $statement = $this->db->prepare("DELETE FROM `contacts` where id=:id");
             $statement->bindParam(":id", $id, PDO::PARAM_INT);
             $result = $statement->execute();
 
-            return $result;
         } catch (\PDOException $exc) {
-            echo $exc->getTraceAsString();
+            $this->error_log("Error", $exc->getTraceAsString());
         }
+
+        return $result;
     }
 
 }
