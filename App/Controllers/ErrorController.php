@@ -1,12 +1,11 @@
 <?php
-
 namespace App\Controllers;
 
 use Core\BaseController;
 use Core\View;
 
 /**
- * Description of ErrorController
+ * ErrorController to show error pages
  *
  * @author karim
  */

@@ -7,7 +7,8 @@ use Core\View;
 use App\Models\Contact;
 
 /**
- * Description of ContactsController
+ * Contacts controller to be used in CRUD for 
+ * table contacts
  *
  * @author karim
  */
@@ -21,30 +22,61 @@ class ContactsController extends BaseController {
         View::renderTemplate("contacts/index.twig.php");
     }
 
+    /**
+     * ajax function used to get all contacts from DB
+     * and return it as json
+     * @return json
+     */
     public function ajaxGetAllContactsAction() {
-
+        // check if call is ajax
         if (strtolower(filter_input(INPUT_SERVER, 'HTTP_X_REQUESTED_WITH')) === 'xmlhttprequest') {
             $contact_obj = new Contact();
             // get all contacts
             $contacts = $contact_obj->getAll();
 
             echo json_encode($contacts);
-        } 
-        else {
+        } else {
             // redirect to show all contacts if not ajax
-           $this->show404();
+            $this->show404();
             return;
         }
     }
 
     /**
-     * show selected contact
+     * show selected contact using contact id
      */
     public function showAction() {
 
         // validate id is int
         $id = $this->route_params["id"];
+        // if id is invalid redirect to 404 page
+        if (filter_var($id, FILTER_VALIDATE_INT) === false) {
+            $this->show404();
+            return;
+        }
 
+        $contact_obj = new Contact();
+        $contact = $contact_obj->findById($id);
+        // if no contact returned then display error message
+        if ($contact == false) {
+            //set error message
+            $_SESSION["error_message"] = "Contact not found or deleted";
+            // redirect to show all contacts if contacts not found
+            header("Location: /contacts");
+            return;
+        }
+
+        View::renderTemplate("contacts/show.twig.php", ["contact" => $contact]);
+    }
+
+    /**
+     * show an edit form for a selected contact
+     * using contact id
+     */
+    public function editAction() {
+
+        $id = $this->route_params["id"];
+        // if id is invalid redirect to 404 page
         if (filter_var($id, FILTER_VALIDATE_INT) === false) {
             $this->show404();
             return;
@@ -60,45 +92,26 @@ class ContactsController extends BaseController {
             header("Location: /contacts");
             return;
         }
-
-        View::renderTemplate("contacts/show.twig.php", ["contact" => $contact]);
-    }
-
-    /**
-     * show an edit form for a selected contact
-     */
-    public function editAction() {
-
-
-        $id = $this->route_params["id"];
-
-        $contact_obj = new Contact();
-        $contact = $contact_obj->findById($id);
-
-        if ($contact == false) {
-            //set error message
-            $_SESSION["error_message"] = "Contact not found or deleted";
-            // redirect to show all contacts if contacts not found
-            header("Location: /contacts");
-            return;
-        }
+        
         View::renderTemplate("contacts/edit.twig.php", [
             "contact" => $contact
         ]);
     }
 
     /**
-     * This is the action to update contacts
+     * This is the action to update a contact
      * it should only run through post
      */
     public function updateAction() {
-
+        // if the page has no post 
+        // then redirect to 404
         if (empty($_POST)) {
             $this->show404();
             return;
         }
 
         $id = $_POST["id"];
+        // validate other contacts data
         $contactDetails = $this->validateInput();
 
         // validate id is int
@@ -125,7 +138,7 @@ class ContactsController extends BaseController {
     }
 
     /**
-     * show an edit form for a selected contact
+     * show an create form to add a new contact
      */
     public function createAction() {
 
@@ -133,11 +146,12 @@ class ContactsController extends BaseController {
     }
 
     /**
-     * This is the action to store  contacts
+     * This is the action to store contacts
      * it should only run through post
      */
     public function storeAction() {
-
+        // if the page has no post and token is invalid
+        // then redirect to 404
         if (empty($_POST) || $this->validateToken() === false) {
             $this->show404();
             return;
@@ -155,19 +169,19 @@ class ContactsController extends BaseController {
             $_SESSION["error_message"] = "Failed to add Contact";
         }
 
+        // after saving the new contact
         // redirect to show all contacts
         header("Location: /contacts");
     }
 
     /**
-     * This is the action to store  contacts
-     * it should only run through post
+     * This is the action to delete contacts
      */
     public function deleteAction() {
 
-        // validate id is int
+        // get id from Get
         $id = $this->route_params["id"];
-
+        // validate id is int
         if (filter_var($id, FILTER_VALIDATE_INT) === false) {
             $this->show404();
             return;
@@ -189,6 +203,11 @@ class ContactsController extends BaseController {
         }
     }
 
+    /**
+     * validate contacts details especially name, Phone and address
+     * and convert special characters to html tags 
+     * @return array
+     */
     private function validateInput() {
         $contactDetails = array();
 
