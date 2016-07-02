@@ -1,11 +1,5 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Core;
 
 use App\Config;
@@ -22,6 +16,10 @@ abstract class Controller {
     // session
     protected $_token = "";
 
+    /**
+     * constructor to fill the route parameters
+     * @param type $route_params
+     */
     public function __construct($route_params) {
         $this->route_params = $route_params;
         //generate token to be used in forms
@@ -44,14 +42,14 @@ abstract class Controller {
     }
 
     /**
-     * run function filter before action
+     * run function filter before any action
      */
     protected function before() {
         
     }
 
     /**
-     * run function filter after action
+     * run function filter after any action
      */
     protected function after() {
 //        echo 'after';
@@ -63,6 +61,10 @@ abstract class Controller {
         return;
     }
 
+    /**
+     * generate token to be used in forms
+     * @return string
+     */
     protected function generateToken() {
 
         $token = "";
@@ -80,6 +82,10 @@ abstract class Controller {
         return $token;
     }
 
+    /**
+     * validate token to check it matches
+     * @return boolean
+     */
     protected function validateToken() {
 
         // check if a session is started and a token is transmitted, if not return an error

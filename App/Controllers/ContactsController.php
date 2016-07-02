@@ -25,7 +25,7 @@ class ContactsController extends Controller {
     /**
      * ajax function used to get all contacts from DB
      * and return it as json
-     * @return json
+     * @return json or 404 if not found
      */
     public function ajaxGetAllContactsAction() {
         // check if call is ajax
@@ -47,7 +47,7 @@ class ContactsController extends Controller {
      */
     public function showAction() {
 
-        // validate id is int
+        // validate contact id is int
         $id = $this->route_params["id"];
         // if id is invalid redirect to 404 page
         if (filter_var($id, FILTER_VALIDATE_INT) === false) {
@@ -65,16 +65,17 @@ class ContactsController extends Controller {
             header("Location: /contacts");
             return;
         }
-
+        // render the view if all everything is Ok
         View::renderTemplate("contacts/show.twig.php", ["contact" => $contact]);
     }
 
     /**
      * show an edit form for a selected contact
      * using contact id
+     * @return view edit form for contacts
      */
     public function editAction() {
-
+        // get contact id from request params (get param)
         $id = $this->route_params["id"];
         // if id is invalid redirect to 404 page
         if (filter_var($id, FILTER_VALIDATE_INT) === false) {
@@ -83,16 +84,17 @@ class ContactsController extends Controller {
         }
 
         $contact_obj = new Contact();
+        // find the contact details by id
         $contact = $contact_obj->findById($id);
 
         if ($contact == false) {
-            //set error message
+            //set error message in session
             $_SESSION["error_message"] = "Contact not found or deleted";
             // redirect to show all contacts if contacts not found
             header("Location: /contacts");
             return;
         }
-        
+        // render the edit form 
         View::renderTemplate("contacts/edit.twig.php", [
             "contact" => $contact
         ]);
@@ -100,7 +102,9 @@ class ContactsController extends Controller {
 
     /**
      * This is the action to update a contact
-     * it should only run through post
+     * after form edit submit
+     * The function requires a POST submit
+     * @return redirects to index page
      */
     public function updateAction() {
         // if the page has no post 
@@ -109,12 +113,12 @@ class ContactsController extends Controller {
             $this->show404();
             return;
         }
-
+        // get the post id 
         $id = $_POST["id"];
         // validate other contacts data
         $contactDetails = $this->validateInput();
 
-        // validate id is int
+        // validate id is int and token
         if (filter_var($id, FILTER_VALIDATE_INT) === false ||
                 $this->validateToken() === false) {
             //set error message
@@ -125,6 +129,7 @@ class ContactsController extends Controller {
         }
 
         $contact_obj = new Contact();
+        // update contacts table from post
         $result = $contact_obj->updateContact($contactDetails, $id);
 
         // show message depends on result from DB
@@ -147,6 +152,7 @@ class ContactsController extends Controller {
 
     /**
      * This is the action to store contacts
+     * insert a contact in Db
      * it should only run through post
      */
     public function storeAction() {
@@ -160,6 +166,7 @@ class ContactsController extends Controller {
         $contactDetails = $this->validateInput();
 
         $contact_obj = new Contact();
+        // insert contact in DB
         $result = $contact_obj->addNewContact($contactDetails);
 
         // show message depends on result from DB
@@ -175,7 +182,8 @@ class ContactsController extends Controller {
     }
 
     /**
-     * This is the action to delete contacts
+     *  delete contacts using contact id
+     * @return redirects to index page
      */
     public function deleteAction() {
 
@@ -188,6 +196,7 @@ class ContactsController extends Controller {
         }
 
         $contact_obj = new Contact();
+//        get the contact from DB
         $contact = $contact_obj->findById($id);
 
         if ($contact == false) {
