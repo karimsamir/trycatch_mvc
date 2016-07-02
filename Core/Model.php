@@ -6,12 +6,12 @@ use PDO;
 use App\Config;
 
 /**
- * Description of Model
+ * Main Model class
  *
  * @author karim
  */
 abstract class Model {
-
+    // main connection
     public $db;
 
     public function __construct() {
@@ -20,8 +20,8 @@ abstract class Model {
 
     /**
      * Get DB connection string
-     * @staticvar type $db
-     * @return PDO
+     * @staticvar $db
+     * @return Object PDO
      */
     protected static function getDB() {
 

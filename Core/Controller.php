@@ -11,7 +11,7 @@ use App\Config;
  */
 abstract class Controller {
 
-    // route params
+    // route params 
     protected $route_params = [];
     // session
     protected $_token = "";
@@ -26,6 +26,12 @@ abstract class Controller {
         $this->_token = $this->generateToken();
     }
 
+    /**
+     * used to call some functions  before and after actions in controllers
+     * @param string $name function name of action
+     * @param array $arguments to be used by action
+     * @throws \Exception if method not found
+     */
     public function __call($name, $arguments) {
 
         $method = $name . "Action";

@@ -4,7 +4,6 @@ namespace Core;
 use Core\View;
 
 /**
- * Description of Error
  *
  * @author karim
  */
@@ -18,6 +17,11 @@ class Error {
         }
     }
 
+    /**
+     * 
+     * @param type $exception
+     * @return type
+     */
     public static function exceptionHandler($exception) {
 
         $code = $exception->getCode();
@@ -28,29 +32,33 @@ class Error {
 
         http_response_code($code);
 
+        $exceptionMsg =  $exception->getMessage();
+        $fileThrownError = $exception->getFile();
+        
         $message = "<h1>Fatal error</h1>";
         $message .= "<p>Uncaught exception: " . get_class($exception) . "</p>";
-        $message .= "<p>Message: " . $exception->getMessage() . "</p>";
+        $message .= "<p>Message: $exceptionMsg</p>";
         $message .= "<p>stack trace: " . $exception->getTraceAsString() . "</p>";
-        $message .= "<p>Thrown in: " . $exception->getFile() . " on line "
+        $message .= "<p>Thrown in: $fileThrownError on line "
                 . $exception->getLine() . "</p>";
 
         if (\App\Config::SHOW_ERRORS) {
             echo $message;
         } else {
+            $logMsg = "FATAL: $exceptionMsg thrown in: $fileThrownError";
+            
             $log = dirname(__DIR__) . "/logs/" . date("Y-m-d") . ".txt";
             ini_set("error_log", $log);
-            error_log($message);
+            error_log($logMsg);
 
             if ($code == 404) {
-                // redirect to show all contacts
+                // redirect to show 404 page
                 header("Location: /pagenotfound");
             } else {
-                // redirect to show all contacts
+                // redirect to show server error
                 header("Location: /servererror");
             }
             return;
-//            View::renderTemplate("error/$code.html");
         }
     }
 

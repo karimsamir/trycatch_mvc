@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Description of Router
+ * Class to check for registered URI that will run in the application
  *
  * @author karim
  */
@@ -51,7 +51,6 @@ class Router {
 
     /**
      * match a route to url 
-     * check for route using url
      * @param type $url
      * @return boolean true if route is found 
      */
@@ -67,11 +66,10 @@ class Router {
         
 //        $reg_exp = "/^(?P<controller>[a-z-]+)\/(?P<action>[a-z-]+)$/";
         foreach ($this->routes as $route => $params) {
-//            var_dump($route);
-//            var_dump("*-*-*-**-*-*-*-*-*-*-*-*-*-");
-            if (preg_match($route, $url, $matches)) {
-                //get named captured value
 
+            if (preg_match($route, $url, $matches)) {
+
+                //get named captured value
                 foreach ($matches as $key => $match) {
 
                     if (is_string($key)) {
